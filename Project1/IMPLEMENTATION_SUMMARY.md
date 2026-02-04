@@ -110,6 +110,7 @@ All security vulnerabilities have been addressed:
 - ✅ CodeQL scan passed with 0 alerts
 - ✅ **Updated OpenCV to >= 4.8.1.78** (fixes CVE-2023-4863 libwebp vulnerability)
 - ✅ **Updated Pillow to >= 10.3.0** (fixes buffer overflow and libwebp vulnerabilities)
+- ✅ **Updated Werkzeug to >= 3.0.3** (fixes remote execution vulnerability in debugger)
 
 ## How to Use
 

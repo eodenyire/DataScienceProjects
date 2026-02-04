@@ -19,7 +19,7 @@ The project uses the following Python libraries:
 ```python
 # Web Framework
 Flask==2.3.2
-Werkzeug==2.3.6
+Werkzeug>=3.0.3
 
 # Computer Vision & Image Processing
 opencv-python>=4.8.1.78
