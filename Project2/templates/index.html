@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Image - Dog Breed Prediction{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-section {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .upload-section h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+
+    .upload-section p {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .upload-box {
+        border: 3px dashed #667eea;
+        border-radius: 12px;
+        padding: 50px 30px;
+        background: #f8f9ff;
+        margin-bottom: 30px;
+        transition: all 0.3s;
+    }
+
+    .upload-box:hover {
+        background: #f0f2ff;
+        border-color: #764ba2;
+    }
+
+    .upload-box input[type="file"] {
+        display: none;
+    }
+
+    .upload-label {
+        display: inline-block;
+        padding: 15px 40px;
+        background: white;
+        border: 2px solid #667eea;
+        color: #667eea;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin-bottom: 15px;
+    }
+
+    .upload-label:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    .file-name {
+        color: #666;
+        font-style: italic;
+        margin-top: 10px;
+        display: block;
+    }
+
+    .supported-breeds {
+        margin-top: 40px;
+        padding: 30px;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+    .supported-breeds h3 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .breeds-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        text-align: left;
+    }
+
+    .breed-item {
+        padding: 10px;
+        background: white;
+        border-radius: 6px;
+        color: #555;
+        font-size: 0.95em;
+    }
+
+    .breed-item::before {
+        content: "🐕";
+        margin-right: 8px;
+    }
+
+    .instructions {
+        margin-top: 30px;
+        padding: 20px;
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        border-radius: 6px;
+        text-align: left;
+    }
+
+    .instructions h4 {
+        color: #856404;
+        margin-bottom: 10px;
+    }
+
+    .instructions ul {
+        color: #856404;
+        margin-left: 20px;
+    }
+
+    .instructions li {
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-section">
+    <h2>Upload a Dog Image</h2>
+    <p>Upload an image of a dog, and our AI model will predict its breed!</p>
+
+    <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data">
+        <div class="upload-box">
+            <label for="file-input" class="upload-label">
+                📁 Choose Image
+            </label>
+            <input type="file" name="file" id="file-input" accept="image/*" required>
+            <span class="file-name" id="file-name">No file chosen</span>
+        </div>
+
+        <button type="submit" class="btn">🔍 Predict Breed</button>
+    </form>
+
+    <div class="instructions">
+        <h4>📋 Instructions:</h4>
+        <ul>
+            <li>Upload a clear image of a dog (PNG, JPG, or JPEG format)</li>
+            <li>Ensure the dog is clearly visible in the image</li>
+            <li>The model works best with single dog images</li>
+            <li>Maximum file size: 16MB</li>
+        </ul>
+    </div>
+
+    {% if breeds %}
+    <div class="supported-breeds">
+        <h3>🐾 Supported Breeds</h3>
+        <div class="breeds-grid">
+            {% for breed in breeds %}
+            <div class="breed-item">{{ breed.replace('_', ' ').title() }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    // Display selected filename
+    document.getElementById('file-input').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file chosen';
+        document.getElementById('file-name').textContent = fileName;
+    });
+</script>
+{% endblock %}
