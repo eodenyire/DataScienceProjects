@@ -24,7 +24,7 @@ Werkzeug==2.3.6
 # Computer Vision & Image Processing
 opencv-python==4.8.0.74
 Pillow==10.0.0
-numpy==1.24.3
+numpy>=1.24.0
 scikit-image (for SSIM calculation)
 imutils (for contour processing)
 ```
@@ -126,6 +126,11 @@ The Flask application (`app.py`) provides a web interface for the detector:
 
 1. **Start the Flask server:**
 ```bash
+# For development
+python app.py
+
+# For production (set SECRET_KEY environment variable)
+export SECRET_KEY='your-production-secret-key'
 python app.py
 ```
 
