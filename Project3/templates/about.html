@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}About - Image Watermarking App{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-section {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .about-section h2 {
+        color: #667eea;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+    
+    .about-section h3 {
+        color: #667eea;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+    
+    .about-section p {
+        line-height: 1.8;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+    
+    .feature-card {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+    }
+    
+    .feature-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+    
+    .feature-card h4 {
+        color: #667eea;
+        margin-bottom: 10px;
+    }
+    
+    .tech-list {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+    
+    .tech-list ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .tech-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .tech-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .tech-list li:before {
+        content: "✓ ";
+        color: #667eea;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+    
+    .code-block {
+        background: #282c34;
+        color: #abb2bf;
+        padding: 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+    
+    .code-block code {
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <h2>About Image Watermarking App</h2>
+    
+    <p>
+        The Image Watermarking App is a powerful web application that allows you to protect your digital images 
+        by adding customizable watermarks. Whether you need to add text copyright information or your company 
+        logo, this app provides an easy-to-use interface with professional results.
+    </p>
+    
+    <h3>Key Features</h3>
+    
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h4>Text Watermarks</h4>
+            <p>Add custom text with adjustable font size, color, and opacity</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">🖼️</div>
+            <h4>Image Watermarks</h4>
+            <p>Apply your logo or any image as a watermark with size control</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h4>Position Control</h4>
+            <p>Place watermarks in any corner or center of your image</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h4>Opacity Settings</h4>
+            <p>Adjust transparency for subtle or prominent watermarks</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h4>Fast Processing</h4>
+            <p>Get your watermarked images in seconds</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <h4>Easy Download</h4>
+            <p>Download your protected images with one click</p>
+        </div>
+    </div>
+    
+    <h3>Technologies Used</h3>
+    
+    <div class="tech-list">
+        <ul>
+            <li><strong>Flask:</strong> Python web framework for the application</li>
+            <li><strong>OpenCV:</strong> Computer vision library for image processing</li>
+            <li><strong>Pillow (PIL):</strong> Python imaging library for advanced text rendering</li>
+            <li><strong>NumPy:</strong> Numerical computing library for array operations</li>
+            <li><strong>HTML/CSS/JavaScript:</strong> Frontend technologies for user interface</li>
+        </ul>
+    </div>
+    
+    <h3>How It Works</h3>
+    
+    <p><strong>1. Image Upload:</strong> You upload your image through the web interface.</p>
+    
+    <p><strong>2. Watermark Selection:</strong> Choose between text or image watermark and customize the settings:</p>
+    <ul>
+        <li>For text: Enter your text, select font size, color, position, and opacity</li>
+        <li>For images: Upload or select a logo, choose size, position, and opacity</li>
+    </ul>
+    
+    <p><strong>3. Processing:</strong> The application processes your image using advanced image manipulation techniques:</p>
+    <ul>
+        <li>Text watermarks are rendered with high-quality fonts</li>
+        <li>Image watermarks are resized and blended with transparency support</li>
+        <li>Watermarks are positioned precisely according to your selection</li>
+    </ul>
+    
+    <p><strong>4. Download:</strong> Your watermarked image is ready for download in high quality.</p>
+    
+    <h3>Use Cases</h3>
+    
+    <p>This application is perfect for:</p>
+    <ul>
+        <li>📸 <strong>Photographers:</strong> Protect your portfolio with copyright text</li>
+        <li>🎨 <strong>Artists:</strong> Add your signature or branding to digital artwork</li>
+        <li>💼 <strong>Businesses:</strong> Brand promotional images with your logo</li>
+        <li>📱 <strong>Social Media:</strong> Add attribution to images before sharing</li>
+        <li>🏢 <strong>Corporate:</strong> Watermark confidential documents and presentations</li>
+        <li>🎓 <strong>Educational:</strong> Mark educational materials and resources</li>
+    </ul>
+    
+    <h3>Installation & Setup</h3>
+    
+    <p>To run this application locally:</p>
+    
+    <div class="code-block">
+        <code>
+# Clone the repository<br>
+git clone https://github.com/eodenyire/DataScienceProjects.git<br>
+cd DataScienceProjects/Project3<br>
+<br>
+# Install dependencies<br>
+pip install -r requirements.txt<br>
+<br>
+# Run the application<br>
+python app.py<br>
+<br>
+# Open in browser<br>
+# Navigate to http://localhost:5000
+        </code>
+    </div>
+    
+    <h3>Security & Privacy</h3>
+    
+    <p>
+        Your privacy is important. All image processing is done on the server, and uploaded images 
+        are only temporarily stored for processing. For production deployment, ensure you:
+    </p>
+    <ul>
+        <li>Set a secure SECRET_KEY environment variable</li>
+        <li>Use HTTPS for encrypted communication</li>
+        <li>Implement regular cleanup of temporary files</li>
+        <li>Add user authentication if needed</li>
+    </ul>
+    
+    <h3>Future Enhancements</h3>
+    
+    <p>Planned features for future versions:</p>
+    <ul>
+        <li>Batch watermarking for multiple images</li>
+        <li>More font options and text effects</li>
+        <li>Advanced positioning with pixel-level control</li>
+        <li>Watermark templates and presets</li>
+        <li>API endpoint for programmatic access</li>
+        <li>Support for video watermarking</li>
+    </ul>
+    
+    <h3>Contributing</h3>
+    
+    <p>
+        This is an open-source project. Contributions, issues, and feature requests are welcome!
+        Feel free to check the issues page and submit pull requests.
+    </p>
+    
+    <h3>License</h3>
+    
+    <p>
+        This project is part of the Data Science Projects repository and is available for 
+        educational and commercial use.
+    </p>
+    
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="{{ url_for('index') }}" class="btn">Start Watermarking Images</a>
+    </div>
+</div>
+{% endblock %}
