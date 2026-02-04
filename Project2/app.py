@@ -31,13 +31,12 @@ if os.path.exists(MODEL_PATH):
         print("✓ Model loaded successfully")
     except Exception as e:
         print(f"⚠ Error loading model: {e}")
-        print("Creating sample model...")
-        from dog_breed_model import create_sample_model
-        classifier = create_sample_model()
+        print("Please run: python dog_breed_model.py to create the model")
+        classifier = None
 else:
-    print("Model not found. Creating sample model...")
-    from dog_breed_model import create_sample_model
-    classifier = create_sample_model()
+    print("⚠ Model not found at:", MODEL_PATH)
+    print("Please run: python dog_breed_model.py to create the model")
+    classifier = None
 
 
 def allowed_file(filename):
@@ -72,7 +71,8 @@ def preprocess_image(image_path):
 @app.route('/')
 def index():
     """Render the home page."""
-    return render_template('index.html', breeds=classifier.class_names)
+    breeds = classifier.class_names if classifier else []
+    return render_template('index.html', breeds=breeds)
 
 
 @app.route('/predict', methods=['POST'])
@@ -80,6 +80,11 @@ def predict():
     """
     Handle file upload and perform breed prediction.
     """
+    # Check if model is loaded
+    if classifier is None:
+        flash('Model not loaded. Please run: python dog_breed_model.py', 'error')
+        return redirect(url_for('index'))
+    
     # Check if file was uploaded
     if 'file' not in request.files:
         flash('No file uploaded', 'error')

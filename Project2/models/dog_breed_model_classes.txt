@@ -1,0 +1,10 @@
+beagle
+boxer
+bulldog
+chihuahua
+golden_retriever
+german_shepherd
+labrador
+poodle
+rottweiler
+yorkshire_terrier

@@ -32,37 +32,66 @@ class DogBreedClassifier:
         self.model = None
         self.class_names = []
         
-    def build_model(self):
+    def build_model(self, use_pretrained=True):
         """
         Build the model using transfer learning with MobileNetV2.
+        
+        Args:
+            use_pretrained (bool): Whether to use pretrained weights. Set to False for offline mode.
         """
-        # Load pre-trained MobileNetV2 without top layers
-        base_model = MobileNetV2(
-            input_shape=(*self.img_size, 3),
-            include_top=False,
-            weights='imagenet'
-        )
-        
-        # Freeze the base model
-        base_model.trainable = False
-        
-        # Create new model on top
-        inputs = keras.Input(shape=(*self.img_size, 3))
-        
-        # Pre-process input
-        x = preprocess_input(inputs)
-        
-        # Base model
-        x = base_model(x, training=False)
-        
-        # Add custom layers
-        x = layers.GlobalAveragePooling2D()(x)
-        x = layers.Dropout(0.2)(x)
-        x = layers.Dense(128, activation='relu')(x)
-        x = layers.Dropout(0.2)(x)
-        outputs = layers.Dense(self.num_classes, activation='softmax')(x)
-        
-        self.model = keras.Model(inputs, outputs)
+        try:
+            # Load pre-trained MobileNetV2 without top layers
+            base_model = MobileNetV2(
+                input_shape=(*self.img_size, 3),
+                include_top=False,
+                weights='imagenet' if use_pretrained else None
+            )
+            
+            # Freeze the base model
+            base_model.trainable = False
+            
+            # Create new model on top
+            inputs = keras.Input(shape=(*self.img_size, 3))
+            
+            # Pre-process input
+            x = preprocess_input(inputs)
+            
+            # Base model
+            x = base_model(x, training=False)
+            
+            # Add custom layers
+            x = layers.GlobalAveragePooling2D()(x)
+            x = layers.Dropout(0.2)(x)
+            x = layers.Dense(128, activation='relu')(x)
+            x = layers.Dropout(0.2)(x)
+            outputs = layers.Dense(self.num_classes, activation='softmax')(x)
+            
+            self.model = keras.Model(inputs, outputs)
+            
+        except Exception as e:
+            # Fallback: Create a simpler CNN model without pretrained weights
+            print(f"⚠ Could not load pretrained weights: {e}")
+            print("Creating a simpler CNN model without pretrained weights...")
+            
+            inputs = keras.Input(shape=(*self.img_size, 3))
+            
+            # Simple CNN architecture
+            x = layers.Conv2D(32, 3, activation='relu', padding='same')(inputs)
+            x = layers.MaxPooling2D()(x)
+            x = layers.Conv2D(64, 3, activation='relu', padding='same')(x)
+            x = layers.MaxPooling2D()(x)
+            x = layers.Conv2D(128, 3, activation='relu', padding='same')(x)
+            x = layers.MaxPooling2D()(x)
+            x = layers.Conv2D(256, 3, activation='relu', padding='same')(x)
+            x = layers.GlobalAveragePooling2D()(x)
+            x = layers.Dropout(0.3)(x)
+            x = layers.Dense(256, activation='relu')(x)
+            x = layers.Dropout(0.3)(x)
+            x = layers.Dense(128, activation='relu')(x)
+            x = layers.Dropout(0.2)(x)
+            outputs = layers.Dense(self.num_classes, activation='softmax')(x)
+            
+            self.model = keras.Model(inputs, outputs)
         
         # Compile model
         self.model.compile(
