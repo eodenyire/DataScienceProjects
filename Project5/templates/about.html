@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}About - Text Extractor{% endblock %}
+
+{% block content %}
+<style>
+    .about-section {
+        margin-bottom: 30px;
+    }
+    
+    .about-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .about-header h2 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 15px;
+    }
+    
+    .about-header p {
+        color: #6c757d;
+        font-size: 1.2em;
+        line-height: 1.6;
+    }
+    
+    .content-card {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 2px solid #e9ecef;
+    }
+    
+    .content-card h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+        font-size: 1.6em;
+    }
+    
+    .content-card p {
+        color: #333;
+        line-height: 1.8;
+        margin-bottom: 15px;
+    }
+    
+    .content-card ul {
+        margin-left: 20px;
+        line-height: 2;
+    }
+    
+    .content-card li {
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .tech-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .tech-item {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        border: 2px solid #e9ecef;
+        transition: transform 0.3s;
+    }
+    
+    .tech-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .tech-item .icon {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+    
+    .tech-item h4 {
+        color: #667eea;
+        margin-bottom: 5px;
+    }
+    
+    .tech-item p {
+        color: #6c757d;
+        font-size: 0.9em;
+        margin: 0;
+    }
+    
+    .highlight-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 40px;
+    }
+    
+    .highlight-box h3 {
+        margin-bottom: 15px;
+        font-size: 1.8em;
+    }
+    
+    .highlight-box p {
+        font-size: 1.1em;
+        opacity: 0.95;
+        line-height: 1.8;
+    }
+</style>
+
+<div class="about-section">
+    <div class="about-header">
+        <h2>📝 About Text Extractor</h2>
+        <p>
+            An advanced web application for extracting text from images using 
+            state-of-the-art Optical Character Recognition (OCR) technology
+        </p>
+    </div>
+    
+    <div class="content-card">
+        <h3>🎯 What is Text Extractor?</h3>
+        <p>
+            Text Extractor is a powerful web-based application that uses Tesseract OCR engine to 
+            accurately extract text from images. Whether you have scanned documents, photographs 
+            with text, screenshots, or any other image containing text, this application can help 
+            you convert that visual information into editable, searchable text.
+        </p>
+        <p>
+            Built with Python, Flask, and OpenCV, this application provides a user-friendly interface 
+            for uploading images and receiving extracted text with detailed statistics and confidence scores.
+        </p>
+    </div>
+    
+    <div class="content-card">
+        <h3>✨ Key Features</h3>
+        <ul>
+            <li><strong>🎯 High Accuracy OCR:</strong> Powered by Tesseract, one of the most accurate open-source OCR engines</li>
+            <li><strong>🌍 Multi-Language Support:</strong> Extract text in multiple languages including English, Spanish, French, German, and more</li>
+            <li><strong>🖼️ Image Preprocessing:</strong> Optional preprocessing to enhance OCR accuracy for low-quality or challenging images</li>
+            <li><strong>📊 Detailed Statistics:</strong> Get word count, character count, line count, and confidence scores</li>
+            <li><strong>⚡ Fast Processing:</strong> Extract text from images in seconds</li>
+            <li><strong>💾 Easy Export:</strong> Copy extracted text to clipboard or download images</li>
+            <li><strong>🔍 Confidence Scores:</strong> View confidence scores for each recognized word</li>
+            <li><strong>📱 Responsive Design:</strong> Works seamlessly on desktop and mobile devices</li>
+        </ul>
+    </div>
+    
+    <div class="content-card">
+        <h3>🔧 Technology Stack</h3>
+        <div class="tech-stack">
+            <div class="tech-item">
+                <div class="icon">🐍</div>
+                <h4>Python</h4>
+                <p>Core programming language</p>
+            </div>
+            
+            <div class="tech-item">
+                <div class="icon">🌐</div>
+                <h4>Flask</h4>
+                <p>Web framework</p>
+            </div>
+            
+            <div class="tech-item">
+                <div class="icon">👁️</div>
+                <h4>OpenCV</h4>
+                <p>Image processing</p>
+            </div>
+            
+            <div class="tech-item">
+                <div class="icon">📝</div>
+                <h4>Tesseract OCR</h4>
+                <p>Text recognition engine</p>
+            </div>
+            
+            <div class="tech-item">
+                <div class="icon">🖼️</div>
+                <h4>Pillow</h4>
+                <p>Image manipulation</p>
+            </div>
+            
+            <div class="tech-item">
+                <div class="icon">🔢</div>
+                <h4>NumPy</h4>
+                <p>Numerical operations</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <h3>📚 How It Works</h3>
+        <p>The text extraction process follows these steps:</p>
+        <ol style="margin-left: 20px; line-height: 2;">
+            <li><strong>Image Upload:</strong> User uploads an image through the web interface</li>
+            <li><strong>Preprocessing (Optional):</strong> Image is converted to grayscale, thresholded, and denoised for better OCR results</li>
+            <li><strong>OCR Processing:</strong> Tesseract analyzes the image and recognizes text characters</li>
+            <li><strong>Text Extraction:</strong> Recognized text is extracted with confidence scores</li>
+            <li><strong>Analysis:</strong> Statistics are calculated (word count, character count, etc.)</li>
+            <li><strong>Results Display:</strong> Extracted text and analysis are presented to the user</li>
+        </ol>
+    </div>
+    
+    <div class="content-card">
+        <h3>💡 Use Cases</h3>
+        <ul>
+            <li><strong>📄 Document Digitization:</strong> Convert scanned documents and PDFs to editable text</li>
+            <li><strong>📸 Photo Text Extraction:</strong> Extract text from photographs, signs, and posters</li>
+            <li><strong>💳 Card Recognition:</strong> Extract information from business cards, ID cards, and receipts</li>
+            <li><strong>📊 Data Entry:</strong> Automate data entry from printed forms and documents</li>
+            <li><strong>🔍 Content Indexing:</strong> Make image-based content searchable</li>
+            <li><strong>♿ Accessibility:</strong> Make visual content accessible to screen readers</li>
+            <li><strong>📚 Archive Digitization:</strong> Convert historical documents and books to digital text</li>
+            <li><strong>🌐 Translation:</strong> Extract text for translation purposes</li>
+        </ul>
+    </div>
+    
+    <div class="content-card">
+        <h3>🎓 About Tesseract OCR</h3>
+        <p>
+            Tesseract is an optical character recognition engine that was originally developed 
+            by Hewlett-Packard in the 1980s and was open-sourced by HP and UNLV in 2005. 
+            Since 2006, it has been developed and maintained by Google. Tesseract is considered 
+            one of the most accurate open-source OCR engines available today.
+        </p>
+        <p>
+            It supports over 100 languages and can be trained to recognize new languages and fonts. 
+            The engine uses advanced pattern recognition algorithms and machine learning techniques 
+            to achieve high accuracy in text recognition.
+        </p>
+    </div>
+    
+    <div class="content-card">
+        <h3>⚙️ Installation & Setup</h3>
+        <p>To run this application locally:</p>
+        <ol style="margin-left: 20px; line-height: 2;">
+            <li>Clone the repository: <code style="background: #e9ecef; padding: 2px 8px; border-radius: 3px;">git clone https://github.com/eodenyire/DataScienceProjects.git</code></li>
+            <li>Navigate to Project5: <code style="background: #e9ecef; padding: 2px 8px; border-radius: 3px;">cd DataScienceProjects/Project5</code></li>
+            <li>Install Tesseract OCR on your system (see Tesseract documentation)</li>
+            <li>Install Python dependencies: <code style="background: #e9ecef; padding: 2px 8px; border-radius: 3px;">pip install -r requirements.txt</code></li>
+            <li>Run the application: <code style="background: #e9ecef; padding: 2px 8px; border-radius: 3px;">python app.py</code></li>
+            <li>Open your browser and navigate to <code style="background: #e9ecef; padding: 2px 8px; border-radius: 3px;">http://localhost:5000</code></li>
+        </ol>
+    </div>
+    
+    <div class="highlight-box">
+        <h3>👨‍💻 Developer Information</h3>
+        <p>
+            <strong>Developed by Emmanuel Odenyire</strong><br>
+            Email: <a href="mailto:eodenyire@gmail.com" style="color: white; text-decoration: underline;">eodenyire@gmail.com</a><br>
+            <br>
+            This project is part of the DataScienceProjects repository, showcasing practical 
+            applications of computer vision, OCR, and web development technologies.
+        </p>
+        <div style="margin-top: 20px;">
+            <a href="https://github.com/eodenyire/DataScienceProjects" target="_blank" 
+               style="color: white; text-decoration: none; background: rgba(255,255,255,0.2); 
+                      padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                🔗 View on GitHub
+            </a>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="{{ url_for('index') }}" class="btn" style="font-size: 1.1em;">
+            🚀 Start Extracting Text
+        </a>
+    </div>
+</div>
+
+{% endblock %}
