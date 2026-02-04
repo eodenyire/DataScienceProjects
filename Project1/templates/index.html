@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Pan Card Tampering Detector{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-section {
+        text-align: center;
+        padding: 40px 20px;
+    }
+    
+    .upload-section h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+    
+    .upload-section p {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+    }
+    
+    .upload-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #f8f9fa;
+        padding: 40px;
+        border-radius: 10px;
+        border: 2px dashed #667eea;
+    }
+    
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+    
+    .file-input-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .file-input-label {
+        display: inline-block;
+        padding: 15px 30px;
+        background: #667eea;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-weight: 600;
+    }
+    
+    .file-input-label:hover {
+        background: #764ba2;
+    }
+    
+    .submit-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-weight: 600;
+    }
+    
+    .submit-btn:hover {
+        background: #218838;
+    }
+    
+    .file-name {
+        margin: 15px 0;
+        color: #333;
+        font-weight: 600;
+    }
+    
+    .info-section {
+        margin-top: 40px;
+        padding: 30px;
+        background: #e7f3ff;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .info-section h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    
+    .info-section ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .info-section li {
+        padding: 10px 0;
+        color: #555;
+    }
+    
+    .info-section li:before {
+        content: "✓ ";
+        color: #28a745;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-section">
+    <h2>Upload Pan Card Image</h2>
+    <p>Upload a Pan Card image to check if it has been tampered with</p>
+    
+    <form class="upload-form" method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+        <div class="file-input-wrapper">
+            <label class="file-input-label" for="file-upload">
+                📁 Choose File
+            </label>
+            <input id="file-upload" type="file" name="file" accept=".png,.jpg,.jpeg" required onchange="displayFileName(this)">
+        </div>
+        <div class="file-name" id="file-name">No file chosen</div>
+        <button type="submit" class="submit-btn">🔍 Check for Tampering</button>
+    </form>
+    
+    <div class="info-section">
+        <h3>How it works:</h3>
+        <ul>
+            <li>Upload a Pan Card image (PNG, JPG, or JPEG format)</li>
+            <li>Our AI system compares it with the original Pan Card</li>
+            <li>Detects any tampering or modifications using OpenCV</li>
+            <li>Shows detailed analysis with similarity score</li>
+            <li>Highlights the areas that have been modified</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function displayFileName(input) {
+        const fileName = input.files[0] ? input.files[0].name : 'No file chosen';
+        document.getElementById('file-name').textContent = fileName;
+    }
+</script>
+{% endblock %}

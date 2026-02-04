@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Results - Pan Card Tampering Detector{% endblock %}
+
+{% block extra_css %}
+<style>
+    .results-section {
+        padding: 20px;
+    }
+    
+    .results-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .results-header h2 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 2em;
+    }
+    
+    .status-card {
+        max-width: 600px;
+        margin: 0 auto 40px;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .status-card.tampered {
+        background: #f8d7da;
+        border: 2px solid #dc3545;
+    }
+    
+    .status-card.authentic {
+        background: #d4edda;
+        border: 2px solid #28a745;
+    }
+    
+    .status-icon {
+        font-size: 4em;
+        margin-bottom: 15px;
+    }
+    
+    .status-text {
+        font-size: 1.5em;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .status-card.tampered .status-text {
+        color: #721c24;
+    }
+    
+    .status-card.authentic .status-text {
+        color: #155724;
+    }
+    
+    .similarity-score {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+    
+    .images-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+    
+    .image-card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image-card h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .image-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+    }
+    
+    .action-buttons {
+        text-align: center;
+        margin-top: 40px;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        margin: 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #764ba2;
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+    
+    .analysis-info {
+        background: #e7f3ff;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 30px 0;
+        border-left: 4px solid #667eea;
+    }
+    
+    .analysis-info h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    
+    .analysis-info p {
+        color: #555;
+        line-height: 1.6;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="results-section">
+    <div class="results-header">
+        <h2>Analysis Results</h2>
+    </div>
+    
+    <div class="status-card {{ 'tampered' if result.is_tampered else 'authentic' }}">
+        <div class="status-icon">
+            {{ '⚠️' if result.is_tampered else '✅' }}
+        </div>
+        <div class="status-text">
+            {{ 'Tampering Detected!' if result.is_tampered else 'Authentic Pan Card' }}
+        </div>
+        <div class="similarity-score">
+            Similarity: {{ result.similarity }}%
+        </div>
+        <p>
+            {% if result.is_tampered %}
+                The uploaded Pan Card shows signs of tampering. Please review the highlighted differences below.
+            {% else %}
+                The uploaded Pan Card appears to be authentic and matches the original.
+            {% endif %}
+        </p>
+    </div>
+    
+    <div class="analysis-info">
+        <h3>About the Analysis</h3>
+        <p>
+            Our system uses advanced computer vision techniques including Structural Similarity Index (SSIM) 
+            to compare the uploaded image with the original Pan Card. The difference image shows pixel-level 
+            differences, the threshold image highlights significant changes, and the contours image marks 
+            the areas where tampering was detected.
+        </p>
+    </div>
+    
+    <div class="images-grid">
+        <div class="image-card">
+            <h3>Original Pan Card</h3>
+            <img src="{{ url_for('static', filename='../image_data/original_pan_card.jpg') }}" alt="Original Pan Card">
+        </div>
+        
+        <div class="image-card">
+            <h3>Uploaded Pan Card</h3>
+            <img src="{{ url_for('static', filename=result.uploaded_image.replace('static/', '')) }}" alt="Uploaded Pan Card">
+        </div>
+        
+        <div class="image-card">
+            <h3>Difference Image</h3>
+            <img src="{{ url_for('static', filename=result.difference_image.replace('static/', '')) }}" alt="Difference">
+        </div>
+        
+        <div class="image-card">
+            <h3>Threshold Image</h3>
+            <img src="{{ url_for('static', filename=result.threshold_image.replace('static/', '')) }}" alt="Threshold">
+        </div>
+        
+        <div class="image-card">
+            <h3>Detected Changes</h3>
+            <img src="{{ url_for('static', filename=result.contours_image.replace('static/', '')) }}" alt="Contours">
+        </div>
+    </div>
+    
+    <div class="action-buttons">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">🔄 Check Another Card</a>
+        <a href="{{ url_for('about') }}" class="btn btn-secondary">ℹ️ Learn More</a>
+    </div>
+</div>
+{% endblock %}
