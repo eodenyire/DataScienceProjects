@@ -10,7 +10,7 @@ Email: eodenyire@gmail.com
 
 import cv2
 import numpy as np
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Any
 import imutils
 
 
@@ -121,7 +121,7 @@ class VehicleDetector:
         
         return output_frame, vehicle_count, bounding_boxes
     
-    def detect_vehicles_in_image(self, image_path: str) -> Tuple[np.ndarray, int, Dict[str, any]]:
+    def detect_vehicles_in_image(self, image_path: str) -> Tuple[np.ndarray, int, Dict[str, Any]]:
         """
         Detect vehicles in a static image using edge detection and contours.
         
@@ -198,7 +198,7 @@ class VehicleDetector:
         
         return output_image, vehicle_count, details
     
-    def process_video(self, video_path: str, output_path: str = None) -> Dict[str, any]:
+    def process_video(self, video_path: str, output_path: str = None) -> Dict[str, Any]:
         """
         Process a video file to detect and count vehicles.
         
