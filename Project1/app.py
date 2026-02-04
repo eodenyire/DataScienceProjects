@@ -130,4 +130,7 @@ def about():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Only enable debug mode in development
+    # In production, set FLASK_ENV=production and use a proper WSGI server
+    debug_mode = os.environ.get('FLASK_ENV', 'production') == 'development'
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)

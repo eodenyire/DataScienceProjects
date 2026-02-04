@@ -126,11 +126,17 @@ The Flask application (`app.py`) provides a web interface for the detector:
 
 1. **Start the Flask server:**
 ```bash
-# For development
+# For development (with debug mode)
+export FLASK_ENV=development
+export SECRET_KEY='dev-secret-key'
 python app.py
 
-# For production (set SECRET_KEY environment variable)
+# For production (recommended)
+export FLASK_ENV=production
 export SECRET_KEY='your-production-secret-key'
+# Use a production WSGI server like gunicorn
+# pip install gunicorn
+# gunicorn -w 4 -b 0.0.0.0:5000 app:app
 python app.py
 ```
 
