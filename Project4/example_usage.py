@@ -148,8 +148,8 @@ def example_4_class_names():
     print("\nClass List:")
     print("-" * 60)
     
-    for i, class_name in enumerate(classifier.class_names):
-        print(f"{i:2d}. {class_name}")
+    for class_id, class_name in enumerate(classifier.class_names):
+        print(f"{class_id:2d}. {class_name}")
     
     print("-" * 60)
 
