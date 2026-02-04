@@ -200,7 +200,7 @@ Project5/
 
 1. **Set environment variables:**
 ```bash
-export FLASK_ENV=development
+export FLASK_DEBUG=1
 export SECRET_KEY='dev-secret-key'
 ```
 
@@ -226,7 +226,7 @@ For production, use Gunicorn:
 
 ```bash
 pip install gunicorn
-export FLASK_ENV=production
+export FLASK_DEBUG=0
 export SECRET_KEY='your-secure-secret-key-here'
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
 ```
