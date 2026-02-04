@@ -108,6 +108,8 @@ All security vulnerabilities have been addressed:
 - ✅ Secure file upload with validation
 - ✅ No hardcoded credentials
 - ✅ CodeQL scan passed with 0 alerts
+- ✅ **Updated OpenCV to >= 4.8.1.78** (fixes CVE-2023-4863 libwebp vulnerability)
+- ✅ **Updated Pillow to >= 10.3.0** (fixes buffer overflow and libwebp vulnerabilities)
 
 ## How to Use
 

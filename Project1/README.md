@@ -22,8 +22,8 @@ Flask==2.3.2
 Werkzeug==2.3.6
 
 # Computer Vision & Image Processing
-opencv-python==4.8.0.74
-Pillow==10.0.0
+opencv-python>=4.8.1.78
+Pillow>=10.3.0
 numpy>=1.24.0
 scikit-image (for SSIM calculation)
 imutils (for contour processing)
