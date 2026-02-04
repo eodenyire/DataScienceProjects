@@ -145,7 +145,7 @@ The application supports 38 disease classes across the following plants:
 3. **Cherry** (2 classes): Powdery mildew, Healthy
 4. **Corn/Maize** (4 classes): Cercospora leaf spot, Common rust, Northern Leaf Blight, Healthy
 5. **Grape** (4 classes): Black rot, Esca, Leaf blight, Healthy
-6. **Orange** (1 class): Haunglongbing (Citrus greening)
+6. **Orange** (1 class): Huanglongbing (Citrus greening)
 7. **Peach** (2 classes): Bacterial spot, Healthy
 8. **Pepper/Bell** (2 classes): Bacterial spot, Healthy
 9. **Potato** (3 classes): Early blight, Late blight, Healthy

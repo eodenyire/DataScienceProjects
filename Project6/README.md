@@ -10,7 +10,7 @@ The Plant Disease Prediction Streamlit App is an advanced AI-powered web applica
 ### Key Features
 
 - 🎯 **High Accuracy**: Deep learning model with excellent classification performance
-- 🌱 **38 Disease Classes**: Comprehensive disease detection across 9 plant species
+- 🌱 **38 Disease Classes**: Comprehensive disease detection across 14 plant species
 - ⚡ **Fast Processing**: Real-time classification with confidence scores in seconds
 - 🧠 **Transfer Learning**: Leverages pre-trained MobileNetV2 architecture
 - 🌐 **Interactive Web Interface**: Beautiful Streamlit-based web application
@@ -140,7 +140,7 @@ For robust model training, we apply various augmentations:
 - **Width/Height shift**: ±10%
 - **Shear transformation**: 10%
 - **Zoom**: ±10%
-- **No horizontal flip**: Traffic signs have specific orientations
+- **Horizontal flip**: Typically not used for plant leaves to maintain natural orientation
 
 ### Preprocessing Functions
 

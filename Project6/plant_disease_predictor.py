@@ -47,7 +47,7 @@ class PlantDiseasePredictor:
         'Grape___Esca_(Black_Measles)',
         'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)',
         'Grape___healthy',
-        'Orange___Haunglongbing_(Citrus_greening)',
+        'Orange___Huanglongbing_(Citrus_greening)',
         'Peach___Bacterial_spot',
         'Peach___healthy',
         'Pepper,_bell___Bacterial_spot',
@@ -134,7 +134,7 @@ class PlantDiseasePredictor:
             'description': 'Plant appears healthy with no visible disease symptoms.',
             'treatment': 'Continue regular care and monitoring.'
         },
-        'Orange___Haunglongbing_(Citrus_greening)': {
+        'Orange___Huanglongbing_(Citrus_greening)': {
             'description': 'Bacterial disease causing yellowing, misshapen fruit, and tree decline.',
             'treatment': 'Remove infected trees, control psyllid vectors, and use disease-free nursery stock.'
         },
