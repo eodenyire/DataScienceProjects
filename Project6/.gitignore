@@ -40,8 +40,10 @@ Thumbs.db
 uploaded_images/
 *.h5
 *.hdf5
+*.keras
 models/
 plant_disease_model.h5
+plant_disease_model.keras
 *.jpg
 *.jpeg
 *.png

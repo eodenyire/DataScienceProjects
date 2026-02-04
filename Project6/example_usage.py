@@ -143,7 +143,7 @@ def example_5_save_and_load_model():
     predictor.build_model()
     
     # Save the model
-    model_path = "example_model.h5"
+    model_path = "example_model.keras"
     print(f"\n2. Saving model to {model_path}...")
     try:
         predictor.save_model(model_path)

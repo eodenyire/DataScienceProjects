@@ -243,56 +243,71 @@ class PlantDiseasePredictor:
         if model_path and os.path.exists(model_path):
             self.load_model(model_path)
     
-    def build_model(self):
+    def build_model(self, use_pretrained=True):
         """
         Build the CNN model using transfer learning with MobileNetV2.
+        
+        Args:
+            use_pretrained (bool): Whether to use pre-trained ImageNet weights.
+                If False, builds model with random initialization.
         
         Returns:
             keras.Model: Compiled model ready for training
         """
-        # Load pre-trained MobileNetV2 without top layers
-        base_model = MobileNetV2(
-            input_shape=(*self.img_size, 3),
-            include_top=False,
-            weights='imagenet'
-        )
-        
-        # Freeze the base model layers
-        base_model.trainable = False
-        
-        # Build the model
-        inputs = keras.Input(shape=(*self.img_size, 3))
-        
-        # Preprocessing
-        x = tf.keras.applications.mobilenet_v2.preprocess_input(inputs)
-        
-        # Base model
-        x = base_model(x, training=False)
-        
-        # Global average pooling
-        x = layers.GlobalAveragePooling2D()(x)
-        
-        # Dense layers
-        x = layers.Dense(512, activation='relu')(x)
-        x = layers.Dropout(0.5)(x)
-        x = layers.Dense(256, activation='relu')(x)
-        x = layers.Dropout(0.3)(x)
-        
-        # Output layer
-        outputs = layers.Dense(self.num_classes, activation='softmax')(x)
-        
-        # Create model
-        model = keras.Model(inputs=inputs, outputs=outputs)
-        
-        # Compile model
-        model.compile(
-            optimizer=keras.optimizers.Adam(learning_rate=0.001),
-            loss='categorical_crossentropy',
-            metrics=['accuracy']
-        )
-        
-        self.model = model
-        return model
+        try:
+            # Try to load pre-trained MobileNetV2 without top layers
+            weights = 'imagenet' if use_pretrained else None
+            base_model = MobileNetV2(
+                input_shape=(*self.img_size, 3),
+                include_top=False,
+                weights=weights
+            )
+            
+            # Freeze the base model layers
+            base_model.trainable = False
+            
+            # Build the model
+            inputs = keras.Input(shape=(*self.img_size, 3))
+            
+            # Preprocessing
+            x = tf.keras.applications.mobilenet_v2.preprocess_input(inputs)
+            
+            # Base model
+            x = base_model(x, training=False)
+            
+            # Global average pooling
+            x = layers.GlobalAveragePooling2D()(x)
+            
+            # Dense layers
+            x = layers.Dense(512, activation='relu')(x)
+            x = layers.Dropout(0.5)(x)
+            x = layers.Dense(256, activation='relu')(x)
+            x = layers.Dropout(0.3)(x)
+            
+            # Output layer
+            outputs = layers.Dense(self.num_classes, activation='softmax')(x)
+            
+            # Create model
+            model = keras.Model(inputs=inputs, outputs=outputs)
+            
+            # Compile model
+            model.compile(
+                optimizer=keras.optimizers.Adam(learning_rate=0.001),
+                loss='categorical_crossentropy',
+                metrics=['accuracy']
+            )
+            
+            self.model = model
+            return model
+            
+        except Exception as e:
+            # If pre-trained weights can't be loaded, try without them
+            if use_pretrained:
+                print(f"Warning: Could not load pre-trained weights: {e}")
+                print("Building model without pre-trained weights...")
+                return self.build_model(use_pretrained=False)
+            else:
+                raise
     
     def preprocess_image(self, image_path):
         """
@@ -372,10 +387,14 @@ class PlantDiseasePredictor:
         Save the trained model to a file.
         
         Args:
-            filepath (str): Path where to save the model
+            filepath (str): Path where to save the model (.keras format recommended)
         """
         if self.model is None:
             raise ValueError("No model to save. Please build or load a model first.")
+        
+        # Use .keras format if not specified
+        if not filepath.endswith('.keras') and not filepath.endswith('.h5'):
+            filepath = filepath + '.keras'
         
         self.model.save(filepath)
         print(f"Model saved to {filepath}")
@@ -387,8 +406,22 @@ class PlantDiseasePredictor:
         Args:
             filepath (str): Path to the model file
         """
-        self.model = keras.models.load_model(filepath)
-        print(f"Model loaded from {filepath}")
+        try:
+            self.model = keras.models.load_model(filepath)
+            print(f"Model loaded from {filepath}")
+        except Exception as e:
+            # Try with custom objects for older models
+            try:
+                self.model = keras.models.load_model(
+                    filepath,
+                    custom_objects={
+                        'TrueDivide': tf.keras.layers.Lambda,
+                        'Subtract': tf.keras.layers.Lambda
+                    }
+                )
+                print(f"Model loaded from {filepath} (with custom objects)")
+            except:
+                raise Exception(f"Could not load model: {e}")
     
     def get_disease_info(self, disease_name):
         """

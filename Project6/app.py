@@ -90,7 +90,10 @@ def load_predictor():
     predictor = PlantDiseasePredictor()
     
     # Check if pre-trained model exists
-    model_path = "plant_disease_model.h5"
+    model_path = "plant_disease_model.keras"
+    if not os.path.exists(model_path):
+        model_path = "plant_disease_model.h5"  # Fallback to old format
+    
     if os.path.exists(model_path):
         try:
             predictor.load_model(model_path)
