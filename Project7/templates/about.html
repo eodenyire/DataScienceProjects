@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .about-section {
+        padding: 20px 0;
+    }
+
+    .about-section h2 {
+        color: #667eea;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+
+    .about-section h3 {
+        color: #764ba2;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+
+    .about-section p {
+        margin-bottom: 15px;
+        line-height: 1.8;
+    }
+
+    .info-box {
+        background: #f0f4ff;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 4px solid #667eea;
+    }
+
+    .tech-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .tech-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .tech-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .tech-item strong {
+        color: #667eea;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    ul {
+        margin-left: 30px;
+        margin-bottom: 20px;
+    }
+
+    ul li {
+        margin: 10px 0;
+    }
+
+    .contact-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .contact-info a {
+        color: white;
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <h2>About Vehicle Detection & Counting Application</h2>
+
+    <p>
+        Welcome to the Vehicle Detection and Counting Application! This advanced web application 
+        uses computer vision and image processing techniques to automatically detect and count 
+        vehicles in images. Built with Flask and OpenCV, it provides an intuitive interface for 
+        traffic analysis and vehicle monitoring.
+    </p>
+
+    <div class="info-box">
+        <h3>🎯 Project Overview</h3>
+        <p>
+            This application is part of the Data Science Projects series, demonstrating practical 
+            applications of computer vision in real-world scenarios. It's designed to help with 
+            traffic management, parking lot monitoring, and transportation analysis.
+        </p>
+    </div>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+        <li><strong>Automatic Vehicle Detection:</strong> Uses OpenCV's edge detection and contour analysis</li>
+        <li><strong>Accurate Counting:</strong> Counts vehicles with high precision</li>
+        <li><strong>Visual Feedback:</strong> Highlights detected vehicles with bounding boxes</li>
+        <li><strong>Detailed Statistics:</strong> Provides information about each detected vehicle</li>
+        <li><strong>Fast Processing:</strong> Quick analysis with results in seconds</li>
+        <li><strong>User-Friendly Interface:</strong> Simple and intuitive web interface</li>
+    </ul>
+
+    <h3>🔧 How It Works</h3>
+    <p>The application uses a multi-step computer vision pipeline:</p>
+    <ol>
+        <li><strong>Image Upload:</strong> User uploads an image through the web interface</li>
+        <li><strong>Preprocessing:</strong> Image is converted to grayscale and filtered to reduce noise</li>
+        <li><strong>Edge Detection:</strong> Canny edge detection identifies object boundaries</li>
+        <li><strong>Contour Detection:</strong> Connected edges are grouped into contours</li>
+        <li><strong>Vehicle Filtering:</strong> Contours are filtered based on area and aspect ratio</li>
+        <li><strong>Visualization:</strong> Detected vehicles are highlighted with bounding boxes</li>
+        <li><strong>Results Display:</strong> Count and details are shown to the user</li>
+    </ol>
+
+    <h3>💻 Technology Stack</h3>
+    <div class="tech-stack">
+        <div class="tech-item">
+            <strong>Flask</strong>
+            <p>Web Framework</p>
+        </div>
+        <div class="tech-item">
+            <strong>OpenCV</strong>
+            <p>Computer Vision</p>
+        </div>
+        <div class="tech-item">
+            <strong>NumPy</strong>
+            <p>Array Processing</p>
+        </div>
+        <div class="tech-item">
+            <strong>Python</strong>
+            <p>Programming Language</p>
+        </div>
+    </div>
+
+    <h3>📊 Applications</h3>
+    <ul>
+        <li>Traffic flow analysis and monitoring</li>
+        <li>Parking lot occupancy tracking</li>
+        <li>Highway vehicle counting</li>
+        <li>Transportation research and planning</li>
+        <li>Smart city infrastructure</li>
+        <li>Security and surveillance systems</li>
+    </ul>
+
+    <h3>⚠️ Limitations</h3>
+    <ul>
+        <li>Works best with clear, well-lit images</li>
+        <li>Detection accuracy depends on image quality and angle</li>
+        <li>May have difficulty with heavily occluded vehicles</li>
+        <li>Designed for static image analysis (not real-time video yet)</li>
+    </ul>
+
+    <h3>🚀 Future Enhancements</h3>
+    <ul>
+        <li>Real-time video processing</li>
+        <li>Deep learning-based detection (YOLO, SSD)</li>
+        <li>Vehicle type classification (car, truck, motorcycle)</li>
+        <li>Speed estimation</li>
+        <li>License plate detection</li>
+        <li>Traffic density analysis</li>
+        <li>Batch image processing</li>
+    </ul>
+
+    <div class="contact-info">
+        <h3>👨‍💻 Developer Information</h3>
+        <p><strong>Developer:</strong> Emmanuel Odenyire</p>
+        <p><strong>Email:</strong> <a href="mailto:eodenyire@gmail.com">eodenyire@gmail.com</a></p>
+        <p><strong>Project:</strong> Data Science Projects Series - Project 7</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('index') }}" class="btn">🏠 Back to Home</a>
+    </div>
+</div>
+{% endblock %}

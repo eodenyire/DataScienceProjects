@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Result - Image Watermarking App{% endblock %}
+
+{% block extra_css %}
+<style>
+    .result-section {
+        max-width: 1000px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .result-header {
+        margin-bottom: 30px;
+    }
+    
+    .result-header h2 {
+        color: #667eea;
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    
+    .result-info {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+    
+    .result-info h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    
+    .info-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-weight: bold;
+        color: #333;
+        margin-right: 10px;
+    }
+    
+    .images-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+    
+    @media (max-width: 768px) {
+        .images-container {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .image-box {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    
+    .image-box h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    
+    .image-box img {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo-preview {
+        max-width: 200px;
+        margin: 20px auto;
+    }
+    
+    .logo-preview img {
+        max-width: 100%;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        padding: 10px;
+        background: white;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .success-badge {
+        display: inline-block;
+        background: #28a745;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="result-section">
+    <div class="result-header">
+        <span class="success-badge">✓ Watermark Added Successfully!</span>
+        <h2>Your Watermarked Image is Ready</h2>
+    </div>
+    
+    <div class="result-info">
+        <h3>Watermark Details</h3>
+        {% if result.type == 'text' %}
+        <div class="info-item">
+            <span class="info-label">Watermark Type:</span>
+            Text Watermark
+        </div>
+        <div class="info-item">
+            <span class="info-label">Text:</span>
+            "{{ result.watermark_text }}"
+        </div>
+        <div class="info-item">
+            <span class="info-label">Font Size:</span>
+            {{ result.font_size }}px
+        </div>
+        {% else %}
+        <div class="info-item">
+            <span class="info-label">Watermark Type:</span>
+            Image/Logo Watermark
+        </div>
+        <div class="info-item">
+            <span class="info-label">Logo Size:</span>
+            {{ (result.size_ratio * 100)|round|int }}% of image
+        </div>
+        {% endif %}
+        <div class="info-item">
+            <span class="info-label">Position:</span>
+            {{ result.position|replace('-', ' ')|title }}
+        </div>
+        <div class="info-item">
+            <span class="info-label">Opacity:</span>
+            {{ (result.opacity * 100)|round|int }}%
+        </div>
+    </div>
+    
+    {% if result.type == 'image' %}
+    <div class="logo-preview">
+        <h4>Logo Used:</h4>
+        <img src="{{ url_for('static', filename=result.logo_image.replace('static/', '')) }}" alt="Logo">
+    </div>
+    {% endif %}
+    
+    <div class="images-container">
+        <div class="image-box">
+            <h3>Original Image</h3>
+            <img src="{{ url_for('static', filename=result.original_image.replace('static/', '')) }}" alt="Original Image">
+        </div>
+        
+        <div class="image-box">
+            <h3>Watermarked Image</h3>
+            <img src="{{ url_for('static', filename=result.watermarked_image.replace('static/', '')) }}" alt="Watermarked Image">
+        </div>
+    </div>
+    
+    <div class="action-buttons">
+        <a href="{{ url_for('download_file', filename=result.watermarked_image.split('/')[-1]) }}" class="btn">
+            📥 Download Watermarked Image
+        </a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">
+            🔄 Watermark Another Image
+        </a>
+    </div>
+</div>
+{% endblock %}

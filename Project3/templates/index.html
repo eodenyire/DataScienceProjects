@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Image Watermarking App{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tabs {
+        display: flex;
+        border-bottom: 2px solid #dee2e6;
+        margin-bottom: 30px;
+    }
+    
+    .tab {
+        padding: 15px 30px;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        font-size: 1.1em;
+        color: #6c757d;
+        transition: all 0.3s;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .tab:hover {
+        color: #667eea;
+    }
+    
+    .tab.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .upload-section {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .upload-box {
+        background: #f8f9fa;
+        padding: 40px;
+        border-radius: 10px;
+        border: 2px dashed #667eea;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="color"],
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+    
+    .form-group input[type="range"] {
+        width: 100%;
+    }
+    
+    .range-value {
+        display: inline-block;
+        margin-left: 10px;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+    
+    .file-input-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .file-input-label {
+        display: inline-block;
+        padding: 12px 30px;
+        background: #667eea;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .file-input-label:hover {
+        background: #764ba2;
+    }
+    
+    .file-name {
+        margin-top: 15px;
+        color: #6c757d;
+        font-style: italic;
+    }
+    
+    .logo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .logo-option {
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+    }
+    
+    .logo-option:hover {
+        border-color: #667eea;
+        transform: scale(1.05);
+    }
+    
+    .logo-option.selected {
+        border-color: #667eea;
+        background: #f0f4ff;
+    }
+    
+    .logo-option img {
+        max-width: 100%;
+        height: 80px;
+        object-fit: contain;
+    }
+    
+    .logo-option input[type="radio"] {
+        margin-top: 5px;
+    }
+    
+    .info-box {
+        background: #e7f3ff;
+        border-left: 4px solid #667eea;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+    
+    .info-box h3 {
+        color: #667eea;
+        margin-bottom: 10px;
+    }
+    
+    .info-box ul {
+        margin-left: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-section">
+    <div class="info-box">
+        <h3>📝 How to Use</h3>
+        <ul>
+            <li>Choose between text or image watermark</li>
+            <li>Upload your image (PNG, JPG, JPEG - max 16MB)</li>
+            <li>Customize watermark settings</li>
+            <li>Download your watermarked image</li>
+        </ul>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('text')">📝 Text Watermark</button>
+        <button class="tab" onclick="switchTab('image')">🖼️ Image Watermark</button>
+    </div>
+    
+    <!-- Text Watermark Tab -->
+    <div id="text-tab" class="tab-content active">
+        <form method="POST" action="{{ url_for('watermark_text') }}" enctype="multipart/form-data">
+            <div class="upload-box">
+                <h3>Upload Your Image</h3>
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" id="text-file" accept="image/*" required onchange="displayFileName('text-file', 'text-filename')">
+                    <label for="text-file" class="file-input-label">Choose File</label>
+                </div>
+                <div id="text-filename" class="file-name">No file chosen</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="watermark_text">Watermark Text:</label>
+                <input type="text" id="watermark_text" name="watermark_text" value="Watermark" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="position">Position:</label>
+                <select id="position" name="position">
+                    <option value="bottom-right">Bottom Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="top-left">Top Left</option>
+                    <option value="center">Center</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="font_size">Font Size: <span class="range-value" id="font_size_value">36</span>px</label>
+                <input type="range" id="font_size" name="font_size" min="12" max="120" value="36" oninput="updateRangeValue('font_size', 'font_size_value', 'px')">
+            </div>
+            
+            <div class="form-group">
+                <label for="color">Text Color:</label>
+                <input type="color" id="color" name="color" value="#FFFFFF">
+            </div>
+            
+            <div class="form-group">
+                <label for="text_opacity">Opacity: <span class="range-value" id="text_opacity_value">0.5</span></label>
+                <input type="range" id="text_opacity" name="opacity" min="0" max="1" step="0.1" value="0.5" oninput="updateRangeValue('text_opacity', 'text_opacity_value', '')">
+            </div>
+            
+            <button type="submit" class="btn">Add Text Watermark</button>
+        </form>
+    </div>
+    
+    <!-- Image Watermark Tab -->
+    <div id="image-tab" class="tab-content">
+        <form method="POST" action="{{ url_for('watermark_image') }}" enctype="multipart/form-data">
+            <div class="upload-box">
+                <h3>Upload Your Image</h3>
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" id="image-file" accept="image/*" required onchange="displayFileName('image-file', 'image-filename')">
+                    <label for="image-file" class="file-input-label">Choose File</label>
+                </div>
+                <div id="image-filename" class="file-name">No file chosen</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Upload Logo:</label>
+                <div class="file-input-wrapper">
+                    <input type="file" name="logo_file" id="logo-file" accept="image/*" onchange="displayFileName('logo-file', 'logo-filename')">
+                    <label for="logo-file" class="file-input-label">Choose Logo</label>
+                </div>
+                <div id="logo-filename" class="file-name">No logo chosen</div>
+            </div>
+            
+            {% if logos %}
+            <div class="form-group">
+                <label>Or Select from Available Logos:</label>
+                <div class="logo-grid">
+                    {% for logo in logos %}
+                    <label class="logo-option" onclick="selectLogo(this)">
+                        <img src="{{ url_for('static', filename='logos/' + logo) }}" alt="{{ logo }}">
+                        <input type="radio" name="selected_logo" value="{{ logo }}">
+                        <div>{{ logo }}</div>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="img_position">Position:</label>
+                <select id="img_position" name="position">
+                    <option value="bottom-right">Bottom Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="top-left">Top Left</option>
+                    <option value="center">Center</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="size_ratio">Logo Size: <span class="range-value" id="size_ratio_value">15</span>%</label>
+                <input type="range" id="size_ratio" name="size_ratio" min="0.05" max="0.5" step="0.05" value="0.15" oninput="updateRangeValuePercent('size_ratio', 'size_ratio_value')">
+            </div>
+            
+            <div class="form-group">
+                <label for="img_opacity">Opacity: <span class="range-value" id="img_opacity_value">0.5</span></label>
+                <input type="range" id="img_opacity" name="opacity" min="0" max="1" step="0.1" value="0.5" oninput="updateRangeValue('img_opacity', 'img_opacity_value', '')">
+            </div>
+            
+            <button type="submit" class="btn">Add Image Watermark</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.add('active');
+        event.target.classList.add('active');
+    }
+    
+    function displayFileName(inputId, displayId) {
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(displayId);
+        if (input.files.length > 0) {
+            display.textContent = input.files[0].name;
+        } else {
+            display.textContent = 'No file chosen';
+        }
+    }
+    
+    function updateRangeValue(inputId, displayId, suffix) {
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(displayId);
+        display.textContent = input.value + suffix;
+    }
+    
+    function updateRangeValuePercent(inputId, displayId) {
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(displayId);
+        display.textContent = Math.round(input.value * 100);
+    }
+    
+    function selectLogo(element) {
+        // Remove selected class from all logos
+        document.querySelectorAll('.logo-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        // Add selected class to clicked logo
+        element.classList.add('selected');
+        // Check the radio button
+        element.querySelector('input[type="radio"]').checked = true;
+    }
+</script>
+{% endblock %}

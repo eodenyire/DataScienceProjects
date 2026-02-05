@@ -1,0 +1,15 @@
+# Web Framework
+Flask==2.3.2
+Werkzeug>=3.0.3
+
+# Computer Vision & Image Processing
+opencv-python>=4.8.1.78
+opencv-contrib-python>=4.8.1.78
+Pillow>=10.3.0
+numpy>=1.24.0
+
+# Machine Learning (for optional deep learning detection)
+# tensorflow>=2.13.0  # Uncomment if using deep learning models
+
+# Utilities
+imutils>=0.5.4
