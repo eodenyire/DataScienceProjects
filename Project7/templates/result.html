@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .results-section {
+        padding: 20px 0;
+    }
+
+    .results-section h2 {
+        color: #667eea;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2em;
+    }
+
+    .vehicle-count {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .vehicle-count h3 {
+        font-size: 2.5em;
+        margin: 0;
+    }
+
+    .vehicle-count p {
+        margin-top: 10px;
+        font-size: 1.2em;
+    }
+
+    .images-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+    }
+
+    .image-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-container h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        border: 2px solid #ddd;
+    }
+
+    .details-section {
+        background: #f0f4ff;
+        padding: 25px;
+        border-radius: 10px;
+        margin: 30px 0;
+        border-left: 4px solid #667eea;
+    }
+
+    .details-section h3 {
+        color: #667eea;
+        margin-bottom: 20px;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .detail-item {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .detail-item strong {
+        display: block;
+        color: #667eea;
+        margin-bottom: 5px;
+    }
+
+    .vehicle-list {
+        max-height: 300px;
+        overflow-y: auto;
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 15px;
+    }
+
+    .vehicle-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .vehicle-item:last-child {
+        border-bottom: none;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+        .images-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="results-section">
+    <h2>Vehicle Detection Results</h2>
+
+    <div class="vehicle-count">
+        <h3>{{ result.vehicle_count }} Vehicle{% if result.vehicle_count != 1 %}s{% endif %} Detected</h3>
+        <p>✅ Analysis Complete</p>
+    </div>
+
+    <div class="images-grid">
+        <div class="image-container">
+            <h3>Original Image</h3>
+            <img src="{{ url_for('uploaded_file', filename=result.original_image) }}" alt="Original Image">
+        </div>
+
+        <div class="image-container">
+            <h3>Detected Vehicles</h3>
+            <img src="{{ url_for('uploaded_file', filename=result.processed_image) }}" alt="Processed Image">
+        </div>
+    </div>
+
+    <div class="details-section">
+        <h3>Detection Details</h3>
+        
+        <div class="details-grid">
+            <div class="detail-item">
+                <strong>Total Vehicles</strong>
+                <span>{{ result.details.total_count }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Image Width</strong>
+                <span>{{ result.details.image_size.width }}px</span>
+            </div>
+            <div class="detail-item">
+                <strong>Image Height</strong>
+                <span>{{ result.details.image_size.height }}px</span>
+            </div>
+        </div>
+
+        {% if result.details.vehicles %}
+        <div class="vehicle-list">
+            <h4>Individual Vehicle Information:</h4>
+            {% for vehicle in result.details.vehicles %}
+            <div class="vehicle-item">
+                <strong>Vehicle {{ vehicle.id }}:</strong>
+                Position: ({{ vehicle.x }}, {{ vehicle.y }}),
+                Size: {{ vehicle.width }}×{{ vehicle.height }}px,
+                Area: {{ "%.2f"|format(vehicle.area) }}px²
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="actions">
+        <a href="{{ url_for('index') }}" class="btn">🔄 Analyze Another Image</a>
+    </div>
+</div>
+{% endblock %}
